@@ -1,64 +1,34 @@
 # Build Automated Machine Images for MISP
 
-Build a virtual machine for MISP based on Ubuntu 18.04 server
+Fork of MISP/misp-packer:20.04
+
+Build a virtual machine for MISP based on Ubuntu 20.04.4 server
 (for VirtualBox or VMWare).
 
-## Requirements
+Changes:
 
-* [VirtualBox](https://www.virtualbox.org)
-* [Packer](https://www.packer.io) from the Packer website
-* *index-fancy* -> https://github.com/Vestride/fancy-index (on deployment side)
-* *rhash* -> sudo apt install rhash (on the builder side)
+-   JSON packer file converted to HCL2 with Packer converter.
+-   required_plugins defined to allow installation with packer init.
+-   Variables separated into "variables.pkr.hcl" file.
+-   Other common settings between builders turned into variables and defaults set.
+-   Default variable overrides in "variables.auto.pkrvars.hcl" file.
+-   VirtualBox modifyvm variables moved to main source block where compatible.
+-   Removed VirtualBox modifyvm variables that are setting a value that is already the default.
+-   Removed VirtualBox port forwards for Jupyter as it seems it is no longer installed.
+-   Removed VirtualBox port forwards for Viper and MISP Dashboard as current install script states they are broken and not installed.
+-   Boot command changed as was not working while testing.
+-   Addition of `networking.sh` script from the[chef/bento](https://github.com/chef/bento) project to ensure the network interface is set to `eth0`. This carries  the `Apache-2.0 License`.
+-   INSTALL.sh needs placing in scripts folder as build scripts which download the file have not been updated.
+-   Removed said build scripts.
+-   Checksum post-processor is used to create checksums for builds.
 
-## Usage
+Instructions:
+-   Read Notes.
+-   Run `packer init .` to install required plugins.
+-   Place latest [INSTALL.sh]("https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh") in scripts folder.
+-   Run `Packer build --only=vmware-iso.ubuntu .` for vmware build.
+-   Run `Packer build --only=virtualbox-iso.ubuntu .` for virtualbox build.
+-   Run `Packer build .` to build both.
 
-Launch the generation with the VirtualBox builder:
-
-    $./build_vbox.sh 
-
-A VirtualBox image will be generated and stored in the folder
-*output-virtualbox-iso*.
-
-Default credentials are displayed (Web interface, SSH and MariaDB) at the end
-of the process. You can directly import the image in VirtualBox.
-
-The sha1 and sha512 checksums of the generated VM will be stored in the files
-*packer_virtualbox-iso_virtualbox-iso_sha1.checksum* and
-*packer_virtualbox-iso_virtualbox-iso_sha512.checksum* respectively.
-
-In case you encounter a problem with the ``MISP_BASEURL``, you can still change
-it when the VM is running. For example the IP address of your VM is
-``172.16.100.123`` you can set ``MISP_BASEURL`` from your host with the command:
-
-    $ ssh misp@172.16.100.123 sudo -u www-data /var/www/MISP/app/Console/cake Baseurl http://172.16.100.123
-
-If you want to build an image for VMWare you will need to install it and to
-use the VMWare builder with the command:
-
-    $ packer build -only=vmware-iso misp.json
-
-You can also launch all builders in parallel.
-
-### Modules activated by default in the VM
-
-* [MISP galaxy](https://github.com/MISP/misp-galaxy)
-* [MISP modules](https://github.com/MISP/misp-modules)
-* [MISP taxonomies](https://github.com/MISP/misp-taxonomies)
-* [MISP noticelists](https://github.com/MISP/misp-noticelist)
-* [MISP warninglists](https://github.com/MISP/misp-warninglists)
-* [MISP ZMQ](https://github.com/MISP/misp-book/tree/master/misp-zmq)
-* [MISP dashboard](https://github.com/MISP/misp-dashboard)
-
-## Automatic export to GitHub
-
-    $ GITHUB_AUTH_TOKEN=<your-github-auth-token>
-    $ TAG=$(curl https://api.github.com/repos/MISP/MISP/releases/latest | jq  -r '.tag_name')
-    $ ./upload.sh github_api_token=$GITHUB_AUTH_TOKEN owner=MISP repo=MISP tag=$TAG filename=./output-virtualbox-iso/MISP_demo.ova
-
-## Upload latest release
-
-curl -s https://api.github.com/repos/MISP/MISP/tags  |jq -r '.[0] | .name'
-
-
-You can add these lines in the *post-processors* section of the file
-*misp.json* if you want to automate the process.
+Notes:
+-   Timing is important, different hosts load at different speeds, boot_wait needs changing to suit the build host. Separate variables exist for Virtualbox and VMWare.

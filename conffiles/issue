@@ -10,9 +10,6 @@ IP address: \4{eth0}
 MISP                http://\4{eth0}       admin@admin.test / admin
                     https://\4{eth0}
 MISP-modules (API)  http://\4{eth0}:6666  (no credentials)
-MISP-dashboard      http://\4{eth0}:8001  (no credentials)
-Viper-web           http://\4{eth0}:8888  admin / Password1234
-jupyter-notebook    http://\4{eth0}:8889
 
 The default system credentials are: misp / Password1234
 

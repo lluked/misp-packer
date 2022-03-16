@@ -12,13 +12,6 @@ autoinstall:
     layout: us
     variant: ''
   locale: en_US
-  network:
-    network:
-      version: 2
-      ethernets:
-        ens33:
-          dhcp4: true
-          dhcp-identifier: mac
   ssh:
     allow-pw: true
     authorized-keys: []
@@ -26,6 +19,3 @@ autoinstall:
   storage:
     layout:
         name: lvm
-  late-commands:
-    - sed -i 's/^#*\(send dhcp-client-identifier\).*$/\1 = hardware;/' /target/etc/dhcp/dhclient.conf
-    - 'sed -i "s/dhcp4: true/&\n      dhcp-identifier: mac/" /target/etc/netplan/00-installer-config.yaml'
