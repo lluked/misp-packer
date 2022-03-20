@@ -70,7 +70,6 @@ build {
   sources = ["source.virtualbox-iso.ubuntu", "source.vmware-iso.ubuntu"]
 
   provisioner "shell" {
-    environment_vars = ["DESKTOP=${var.desktop}", "UPDATE=${var.update}", "http_proxy=${var.http_proxy}", "https_proxy=${var.https_proxy}", "no_proxy=${var.no_proxy}"]
     execute_command  = "echo '${var.ssh_password}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     inline           = ["echo '%sudo    ALL=(ALL)  NOPASSWD:ALL' >> /etc/sudoers"]
   }

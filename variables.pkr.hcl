@@ -28,11 +28,6 @@ variable "cpus" {
   default = "1"
 }
 
-variable "desktop" {
-  type    = string
-  default = "false"
-}
-
 variable "disk_size" {
   type    = string
   default = "25000"
@@ -41,16 +36,6 @@ variable "disk_size" {
 variable "headless" {
   type    = string
   default = "true"
-}
-
-variable "http_proxy" {
-  type    = string
-  default = "${env("http_proxy")}"
-}
-
-variable "https_proxy" {
-  type    = string
-  default = "${env("https_proxy")}"
 }
 
 variable "iso_checksum" {
@@ -83,11 +68,6 @@ variable "memory" {
   default = "4096"
 }
 
-variable "no_proxy" {
-  type    = string
-  default = "${env("no_proxy")}"
-}
-
 variable "ssh_handshake_attempts" {
   type    = string
   default = "100"
@@ -111,11 +91,6 @@ variable "ssh_timeout" {
 variable "ssh_username" {
   type    = string
   default = "misp"
-}
-
-variable "update" {
-  type    = string
-  default = "true"
 }
 
 variable "vm_description" {

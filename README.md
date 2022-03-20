@@ -21,6 +21,7 @@ Changes:
 -   INSTALL.sh needs placing in scripts folder as build scripts which download the file have not been updated.
 -   Removed said build scripts.
 -   Checksum post-processor is used to create checksums for builds.
+-   Removed unused variables (desktop, update, http_proxy, https_proxy, no_proxy).
 
 Instructions:
 -   Read Notes.
