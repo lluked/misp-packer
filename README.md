@@ -22,6 +22,8 @@ Changes:
 -   Removed said build scripts.
 -   Checksum post-processor is used to create checksums for builds.
 -   Removed unused variables (desktop, update, http_proxy, https_proxy, no_proxy).
+-   Moved misp sudoers.d config from `users.sh` to late-commands in `user-data`.
+-   Renamed `users.sh` containing remaining config to `pre.sh` to be run before install.
 
 Instructions:
 -   Read Notes.

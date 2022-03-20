@@ -70,23 +70,12 @@ build {
   sources = ["source.virtualbox-iso.ubuntu", "source.vmware-iso.ubuntu"]
 
   provisioner "shell" {
-    execute_command  = "echo '${var.ssh_password}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    inline           = ["echo '%sudo    ALL=(ALL)  NOPASSWD:ALL' >> /etc/sudoers"]
-  }
-
-  provisioner "shell" {
     execute_command = "echo '${var.ssh_password}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    script          = "scripts/networking.sh"
-  }
-
-  provisioner "shell" {
-    execute_command = "echo '${var.ssh_password}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    script          = "scripts/extend.sh"
-  }
-
-  provisioner "shell" {
-    execute_command = "echo '${var.ssh_password}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    script          = "scripts/users.sh"
+    scripts         = [
+      "scripts/networking.sh",
+      "scripts/extend.sh",
+      "scripts/pre.sh"
+    ]
   }
 
   provisioner "file" {

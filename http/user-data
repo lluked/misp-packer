@@ -1,21 +1,24 @@
 #cloud-config
 autoinstall:
-  version: 1
-  apt:
-    geoip: true
-    preserve_sources_list: true
-  identity:
-    hostname: misp-vm
-    username: 'misp'
-    password: '$6$Zw5jtOmRPBqrzFT7$st/15FZrcYhlt7bgv70ILUsPfzEuFumiZF.CdXJ9VdVXXLHI4WIjJ6MS/5g3410L1ogCO5O7B7ro.XEFZ2P0o0'
-  keyboard:
-    layout: us
-    variant: ''
-  locale: en_US
-  ssh:
-    allow-pw: true
-    authorized-keys: []
-    install-server: true
-  storage:
-    layout:
-        name: lvm
+    version: 1
+    apt:
+        geoip: true
+        preserve_sources_list: true
+    identity:
+        hostname: misp-vm
+        username: 'misp'
+        password: '$6$Zw5jtOmRPBqrzFT7$st/15FZrcYhlt7bgv70ILUsPfzEuFumiZF.CdXJ9VdVXXLHI4WIjJ6MS/5g3410L1ogCO5O7B7ro.XEFZ2P0o0'
+    keyboard:
+        layout: us
+        variant: ''
+    locale: en_US
+    ssh:
+        allow-pw: true
+        authorized-keys: []
+        install-server: true
+    storage:
+        layout:
+            name: lvm
+    late-commands:
+        - 'echo "misp    ALL=(ALL)    NOPASSWD: ALL" > /target/etc/sudoers.d/misp'
+        - chmod 440 /target/etc/sudoers.d/misp
